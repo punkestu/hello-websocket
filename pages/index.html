@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="id">
 <head>
     <title>WebSocket</title>
 
@@ -42,13 +42,15 @@
         <div class="placeholder">
             <label>Hello <b class="username"></b>. Say something:</label>
         </div>
-        <input class="input-message" type="text" placeholder="Enter message">
+        <label>
+            <input class="input-message" type="text" placeholder="Enter message">
+        </label>
         <button type="submit">Send</button>
     </form>
 </div>
 
 <script type="text/javascript">
-    var app = {}
+    const app = {};
     app.ws = undefined
     app.container = undefined
 
@@ -58,23 +60,23 @@
             return
         }
 
-        var name = prompt('Enter your name please:') || "No name"
+        const name = prompt('Enter your name please:') || "No name";
         document.querySelector('.username').innerText = name
 
         app.container = document.querySelector('.container')
         app.print = function (message) {
-            var el = document.createElement("p")
+            const el = document.createElement("p");
             el.innerHTML = message
             app.container.append(el)
         }
 
         app.doSendMessage = function () {
-            var messageRaw = document.querySelector('.input-message').value
+            const messageRaw = document.querySelector('.input-message').value;
             app.ws.send(JSON.stringify({
                 Message: messageRaw
             }));
 
-            var message = '<b>me</b>: ' + messageRaw
+            const message = '<b>me</b>: ' + messageRaw;
             app.print(message)
 
             document.querySelector('.input-message').value = ''
@@ -83,14 +85,14 @@
         app.ws = new WebSocket("ws://localhost:8080/ws?username=" + name)
 
         app.ws.onopen = function() {
-            var message = '<b>me</b>: connected'
+            const message = '<b>me</b>: connected';
             app.print(message)
         }
 
         app.ws.onmessage = function (event) {
-            var res = JSON.parse(event.data)
+            const res = JSON.parse(event.data);
 
-            var messsage = ''
+            let message;
             if (res.Type === 'New User') {
                 message = 'User <b>' + res.From + '</b>: connected'
             } else if (res.Type === 'Leave') {
@@ -103,7 +105,7 @@
         }
 
         app.ws.onclose = function () {
-            var message = '<b>me</b>: disconnected'
+            const message = '<b>me</b>: disconnected';
             app.print(message)
         }
 

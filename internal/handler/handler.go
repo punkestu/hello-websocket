@@ -21,7 +21,7 @@ func Newhandler(_service service.Service) *Handler {
 	return h
 }
 
-func (h *Handler) Index(w http.ResponseWriter, r *http.Request) {
+func (h *Handler) Index(w http.ResponseWriter, _ *http.Request) {
 	content, err := os.ReadFile("pages/index.html")
 	if err != nil {
 		http.Error(w, "Could not open requested file", http.StatusInternalServerError)
